@@ -3,9 +3,9 @@ import { GoogleGenAI } from '@google/genai';
 import { Telegraf } from 'telegraf';
 
 // Initialize clients directly with keys
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyDnvip_IFP0BUGmZtTj5TWZC1NXxb5VRhk' });
-const bot = new Telegraf('8964106151:AAGiXxW1aI_OjeHap4MxMEFTf1EkEpbpmFA');
-
+// Update the client initializations to use process.env
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 async function getCryptoMarketRanks() {
     const url = "https://api.binance.com/api/v3/ticker/24hr";
     try {
