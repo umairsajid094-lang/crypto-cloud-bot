@@ -37,7 +37,7 @@ async function getCryptoMarketRanks() {
 
 // 🤖 Telegram Command: /start
 bot.start((ctx) => {
-    ctx.reply("Welcome Dear! I am your custom AI Crypto Assistant. Send /update to pull live Binance market data and draft a ready-to-publish Binance Square post.");
+    ctx.reply("Welcome {first_name}! I am your custom AI Crypto Assistant. Send /update to pull live Binance market data and draft a ready-to-publish Binance Square post.");
 });
 
 // 🤖 Telegram Command: /update
