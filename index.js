@@ -2,7 +2,7 @@ import axios from 'axios';
 import { GoogleGenAI } from '@google/genai';
 import { Telegraf } from 'telegraf';
 
-// Initialize the clients directly in the code using your explicit keys
+// Initialize clients directly with keys
 const ai = new GoogleGenAI({ apiKey: 'AIzaSyDnvip_IFP0BUGmZtTj5TWZC1NXxb5VRhk' });
 const bot = new Telegraf('8964106151:AAGiXxW1aI_OjeHap4MxMEFTf1EkEpbpmFA');
 
@@ -35,12 +35,12 @@ async function getCryptoMarketRanks() {
     }
 }
 
-// 🤖 Telegram Command: Triggered when you click "Start"
+// 🤖 Telegram Command: /start
 bot.start((ctx) => {
     ctx.reply("Welcome Mohammed Samiullah! I am your custom AI Crypto Assistant. Send /update to pull live Binance market data and draft a ready-to-publish Binance Square post.");
 });
 
-// 🤖 Telegram Command: Triggered by typing /update
+// 🤖 Telegram Command: /update
 bot.command('update', async (ctx) => {
     try {
         await ctx.reply("⏳ 1. Fetching live tickers from Binance...");
@@ -72,11 +72,18 @@ bot.command('update', async (ctx) => {
     }
 });
 
-// Launch the bot polling loop
-bot.launch().then(() => {
-    console.log("🚀 Telegram Bot is live and listening for commands! Press Ctrl+C to stop.");
-});
-
-// Enable graceful stop handlers
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
+// ☁️ Serverless Webhook Handler Export for Vercel
+export default async function handler(req, res) {
+    try {
+        if (req.method === 'POST') {
+            // Securely parse incoming Telegram updates
+            await bot.handleUpdate(req.body);
+            return res.status(200).send('OK');
+        } else {
+            return res.status(200).send('Bot engine active.');
+        }
+    } catch (error) {
+        console.error("Webhook processing error:", error);
+        return res.status(500).send(error.message);
+    }
+}
