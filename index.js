@@ -36,9 +36,16 @@ async function getCryptoMarketRanks() {
 }
 
 // 🤖 Telegram Command: /start
+// 🤖 Telegram Command: /start
 bot.start((ctx) => {
-    ctx.reply("Welcome {first_name}! I am your custom AI Crypto Assistant. Send /update to pull live Binance market data and draft a ready-to-publish Binance Square post.");
+  // This extracts the user's actual Telegram first name dynamically
+  const firstName = ctx.from?.first_name || "Crypto Trader";
+
+  ctx.reply(`Welcome ${firstName}! 👋 
+
+I am your Binance Square Poster assistant. Send /update to pull live Binance market data and draft a ready-to-publish Binance Square post.`);
 });
+
 
 // 🤖 Telegram Command: /update
 bot.command('update', async (ctx) => {
